@@ -1,114 +1,148 @@
-# 📤 Submission Guidelines
+---
+name: Lab Submission
+about: Submit your security incident lab analysis
+title: '[SUBMISSION] Deniz Kodaş - Security Incident Lab'
+labels: submission
+assignees: ''
+---
 
-## 📋 Required Deliverables
+## 👤 Candidate Information
 
-### 1. Incident Report (PDF)
+ Deniz Kodaş  
+denizkodas.eng@gmail.com
+https://www.linkedin.com/in/deniz-koda%C5%9F/
+Istanbul, Türkiye  
+09/11/2025  
 
-**Format:** PDF, max 5 pages  
-**File name:** `FirstName_LastName_Report.pdf`
 
-**Required Sections:**
 
-#### Section 1: Incident Analysis (2-3 pages)
-- Timeline reconstruction (UTC normalized)
-- Attack vector identification
-- Attack classification (MITRE ATT&CK, OWASP)
-- Root cause analysis
-- Impact assessment
+## 📎 Submission Files
 
-#### Section 2: Architecture Review (1-2 pages)
-- Current architecture weaknesses
-- Improved security architecture diagram
-- Recommended security controls (with justification)
-- Defense-in-depth strategy
+**Option A: Attached Files**
+- Report PDF: ---[Deniz_Kodas_Acme_Security_Incident_Report (1).pdf](https://github.com/user-attachments/files/23442336/Deniz_Kodas_Acme_Security_Incident_Report.1.pdf)
+- Video link: 
 
-#### Section 3: Response & Remediation (1 page)
-- Immediate actions (0-24 hours)
-- Short-term fixes (1-2 weeks)
-- Long-term improvements (1-3 months)
-- Compliance considerations
-
-**Formatting:**
-- Professional appearance
-- Clear structure with headers
-- Evidence-based (reference logs)
-- No excessive bullet points (use prose)
+**Option B: External Links**
+- Report: [Google Drive / Dropbox link]
+- Video: [YouTube / Vimeo / Loom link]
 
 ---
 
-### 2. Video Presentation (MP4 or Link)
+## ⏱️ Time Tracking
 
-**Format:** MP4 or YouTube/Vimeo/Loom link  
-**Duration:** 10-15 minutes  
-**File name:** `FirstName_LastName_Video.mp4` or link in `video_link.md`
+**Total time spent:** ___ hours
 
-**Required Content:**
-
-1. **Introduction (1 min)**
-   - Brief self-introduction
-   - Incident overview
-
-2. **Attack Walkthrough (4-5 min)**
-   - Show timeline
-   - Explain attack techniques
-   - Demonstrate with log examples
-   - Root cause explanation
-
-3. **Architecture Improvements (4-5 min)**
-   - Present improved architecture
-   - Explain design decisions
-   - Walk through security layers
-
-4. **Key Recommendations (2-3 min)**
-   - Top 3 immediate actions
-   - Long-term strategy summary
-
-5. **Closing (1 min)**
-   - Summary of key findings
-
-**Video Guidelines:**
-- ✅ Screen recording (no camera required, but welcome)
-- ✅ Clear audio (use decent microphone)
-- ✅ Readable slides/screen (1080p minimum)
-- ✅ Professional background (if on camera)
-- ❌ Do NOT upload large video files to GitHub (use links instead)
-
-**Video Hosting:**
-- Upload to YouTube (unlisted), Vimeo, or Loom
-- Include link in `video_link.md` file
+**Breakdown:**
+- Log analysis: ___ hours
+- Architecture design: ___ hours
+- Report writing: ___ hours
+- Video creation: ___ hours
 
 ---
 
-## 🚀 How to Submit via GitHub
+## 🎯 Summary
 
-### Prerequisites
+### Attack Vectors Identified
+1. Phishing Campaign (Via E-mail) — Credential harvesting via spoofed domain: "acme-finance.com"
+2. Web Application SQL Injection -  Malicious payloads through the "/dashboard/search" endpoint 
+3. Mobile API Broken Access Control - 
 
-Before starting, make sure you have:
-- [ ] A GitHub account ([sign up here](https://github.com/signup) if needed)
-- [ ] Git installed on your computer ([download here](https://git-scm.com/downloads))
-- [ ] Your report PDF ready
-- [ ] Your video uploaded and link ready
+### Key Findings
+- Phishing Analysis: Around 09:00 AM on October 15, 2024, several employees received an email from security@acme-finance.com with the subject line “URGENT: Verify Your Account.”
+Three employees  (user1, user3, and user5 ) clicked on the link in the message, which directed them to a malicious site hosted at "203.0.113.45".
+All of these clicks came from the same external IP, which suggests that the phishing campaign was centrally controlled.
+The timestamps of these clicks match the timing of unusual activity later seen in the web and API logs, including SQL injection payloads and mismatched token/user_id parameters.
+Based on the correlation between these logs, it’s likely that the attacker used the harvested credentials from the phishing emails to launch follow-up attacks against the company’s web and API systems.
+
+- Web Application Attack: Shortly after the phishing activity, the attacker logged into the system using credentials associated with user_id_ ;"1523".  
+  From the same IP (203.0.113.45), they launched several SQL Injection attempts targeting "/dashboard/search" using payloads. The WAF blocked most of these requests, but at 09:23:45, one obfuscated payload (/*!50000OR*/ 1=1--) successfully bypassed filtering and returned a "200 OK" response code.  
+  Afterward, the attacker requested "dashboard/export?format=csv", suggesting possible data extraction.
+
+
+- Mobile API Exploitation: At around 2024-10-15 06:45:10, the same attacker IP (203.0.113.45) initiated a sequence of requests against the mobile API.
+The attacker successfully logged in as user_id_ "1523" using the "/api/v1/login" endpoint.
+Immediately after obtaining a valid session token (jwt_token_1523_stolen),
+the attacker began accessing other users portfolio data by simply incrementing the account_id value in the request URL:
+ "/api/v1/portfolio/1524 - ... - "/api/v1/portfolio/1538" All of these requests were accepted by the server with a 200 OK response and no access control or authorization validation was applied on the backend.
+This indicates a Broken Access Control vulnerability, where the API trusted the client-provided account ID without verifying ownership against the authenticated user’s token.
+
+### Top 3 Recommendations
+1. Enforce SPF, DKIM, and DMARC to block spoofed sender domains and strengthen e-mail security.  
+2. Implement parameterized queries and enhanced WAF filtering to prevent SQL Injection.  
+3.  Add server-side authorization checks in API endpoints and implement rate limiting to prevent account enumeration.
 
 ---
 
-### Step-by-Step Submission Process
+## 🛠️ Tools Used
 
-#### Step 1: Fork the Repository
+**Analysis:**
+- Visual Studio 2022
+- Excel 
 
-**What is forking?** Creating your own copy of this repository.
+**Diagrams:**
+- draw.io
 
-1. Go to https://github.com/helloiamgp/acme-security
-2. Click the **"Fork"** button in the top-right corner
-3. Select your GitHub account as the destination
-4. Wait a few seconds - you now have your own copy!
+**Video:**
+- 
 
-Your fork will be at: `https://github.com/YOUR_USERNAME/acme-security`
+**Other:**
+- 
 
 ---
 
-#### Step 2: Clone Your Fork to Your Computer
+## ✅ Checklist
 
-**What is cloning?** Downloading your fork to work on it locally.
+Please confirm:
 
-Open your terminal (Mac/Linux) or Git Bash (Windows) and run:
-```bash
+- [X ] Report is max 5 pages
+- [X ] Video is 10-15 minutes
+- [ X] All log files were analyzed
+- [ X] Timeline is timezone-corrected
+- [X ] Framework mappings included (ISO 27001, NIST, OWASP)
+- [X ] Architecture diagram included
+- [X ] Video link is tested and working
+- [X ] No plagiarism / proper attribution
+- [X ] Original work, not AI-generated
+
+---
+
+## 💬 Optional Feedback
+
+**What did you think of this lab?** 
+
+Realistic and structured. It helped me connect phishing, web, and API vectors as part of a single attack chain.  
+
+
+**Any suggestions for improvement?**
+
+Correlation templates include a small hint about log formats
+
+
+**Would you recommend this to others?**
+- [ X] Yes
+
+---
+
+## 📧 Contact Preference
+
+**Preferred contact method:**
+- [ X] Email
+- [X ] LinkedIn
+
+**Best time to reach you:** 
+
+09:00–18:00 Istanbul Time
+
+
+---
+
+## ⚖️ Declaration
+
+I declare that this submission is my original work and I have followed all guidelines.
+
+Deniz Kodaş  
+09/11/2025  
+
+---
+
+_Thank you for your submission! We'll review it and get back to you within 1 week._
