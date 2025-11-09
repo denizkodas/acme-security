@@ -16,11 +16,15 @@ Istanbul, Türkiye
 
 
 
+https://github.com/user-attachments/assets/570220d4-5904-4554-9fc0-74b6d1c169fe
+
+
+
 ## 📎 Submission Files
 
 **Option A: Attached Files**
 - Report PDF: ---[Deniz_Kodas_Acme_Security_Incident_Report (1).pdf](https://github.com/user-attachments/files/23442336/Deniz_Kodas_Acme_Security_Incident_Report.1.pdf)
-- Video link: 
+- Video link: [Watch Presentation] https://github.com/user-attachments/assets/570220d4-5904-4554-9fc0-74b6d1c169fe
 
 **Option B: External Links**
 - Report: [Google Drive / Dropbox link]
@@ -30,13 +34,13 @@ Istanbul, Türkiye
 
 ## ⏱️ Time Tracking
 
-**Total time spent:** ___ hours
+**Total time spent:** 4 hours
 
 **Breakdown:**
-- Log analysis: ___ hours
-- Architecture design: ___ hours
-- Report writing: ___ hours
-- Video creation: ___ hours
+- Log analysis: 2 hours
+- Architecture design: 1.5 hours
+- Report writing: 1 hours
+- Video creation: 0.5 hours
 
 ---
 
@@ -83,7 +87,7 @@ This indicates a Broken Access Control vulnerability, where the API trusted the 
 - draw.io
 
 **Video:**
-- 
+- Loom
 
 **Other:**
 - 
